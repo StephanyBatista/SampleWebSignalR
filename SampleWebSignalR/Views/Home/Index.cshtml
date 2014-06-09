@@ -1,0 +1,33 @@
+﻿<h2>Exemplo SignalR</h2>
+
+<span id="connectionStatus"></span>
+<span id="log"></span>
+
+@section scripts
+{
+    <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.signalR-2.0.3.min.js"></script>
+    <script src="@Url.Content("~/signalr/hubs")"></script>
+    <script type="text/javascript">
+
+        var proxy = $.connection.sampleHub;
+
+        proxy.client.entryClient = function (connectionId) {
+            $('#log').append('<br />Entrada de cliente: ' + connectionId);
+        }
+
+        proxy.client.exitClient = function (connectionId) {
+            $('#log').append('<br />Saida cliente: ' + connectionId);
+        }
+
+        $.connection.hub.start().done(function () {
+
+            $('#connectionStatus').text('conectado');
+
+        }).fail(function (e) {
+
+            $('#connectionStatus').text('não conectado');
+        });
+
+    </script>
+}
